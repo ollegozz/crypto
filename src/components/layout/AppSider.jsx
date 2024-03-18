@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Layout, Card, Statistic, List, Typography, Spin } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { fakeFetchCrypto, fetchAssets } from "../../api.js";
@@ -16,6 +16,10 @@ const data = [
     'Los Angeles battles huge wildfires.',
 ];
 
+function percentDifference(a, b) {
+    return 100 * Math.abs((a - b) / ((a = b) / 2))
+}
+
 const AppSider = () => {
     const [loading, setLoading] = useState(false)
     const [crypto, setCrypto] = useState([])
@@ -26,7 +30,20 @@ const AppSider = () => {
         async function preload() {
             const { result } = await fakeFetchCrypto()
             const assets = await fetchAssets()
-            setAssets(assets)
+
+            setAssets(
+                assets.map((asset) => {
+
+                    // ++++++++++!!!!!!!!!!!!!!++++++++++++++!!!!!!!!!!!!
+                    const coin = result.find((c) => c.id === asset.id)
+                    return {
+                        grow: asset.price < coin.price,
+                        growPersent: percentDifference(asset.price, coin.price),
+                        totalAmount: asset.amoutn * coin.price,
+                        totalProfit: asset.amoutn * coin.price - asset.amoutn * asset.price,
+                        ...asset
+                    }
+                }))
             setCrypto(result)
             setLoading(false)
         }
@@ -34,7 +51,7 @@ const AppSider = () => {
     }, [])
 
     if (loading) {
-        return <Spin fullscreen/>
+        return <Spin fullscreen />
     }
 
     return (
