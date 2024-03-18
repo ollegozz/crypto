@@ -608,13 +608,13 @@ export const cryptoAssets = [
     id: 'bitcoin',
     amount: 0.02,
     price: 26244,
-    data: new Data()
+    date: new Date()
   },
   {
     id: 'ethereum',
     amount: 5,
     price: 2400,
-    data: new Data()
+    date: new Date()
   }
 
 ]
