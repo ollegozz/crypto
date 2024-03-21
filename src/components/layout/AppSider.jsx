@@ -33,7 +33,6 @@ const AppSider = () => {
 
             setAssets(
                 assets.map((asset) => {
-
                     // ++++++++++!!!!!!!!!!!!!!++++++++++++++!!!!!!!!!!!!
                     const coin = result.find((c) => c.id === asset.id)
                     return {
