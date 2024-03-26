@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Layout, Card, Statistic, List, Typography, Spin } from 'antd';
+import { Layout, Card, Statistic, List, Typography, Spin, Tag } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { fakeFetchCrypto, fetchAssets } from "../../api";
-import { percentDifference } from '../../utils'
+import { capitalize, percentDifference } from '../../utils'
 
 
 const siderStyle = {
     padding: '1rem',
 };
 
-const data = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.',
-];
+// const data = [
+//     'Racing car sprays burning fuel into crowd.',
+//     'Japanese princess to wed commoner.',
+//     'Australian walks 100km after outback crash.',
+//     'Man charged over missing wedding girl.',
+//     'Los Angeles battles huge wildfires.',
+// ];
 
 
 
@@ -27,7 +27,7 @@ const AppSider = () => {
     useEffect(() => {
         setLoading(true)
         async function preload() {
-            const {result}  = await fakeFetchCrypto()
+            const { result } = await fakeFetchCrypto()
             const assets = await fetchAssets()
 
             setAssets(
@@ -39,8 +39,8 @@ const AppSider = () => {
                         totalAmount: asset.amount * coin.price,
                         totalProfit: asset.amount * coin.price - asset.amount * asset.price,
                         ...asset
-                    }                    
-                }))     
+                    }
+                }))
             setCrypto(result)
             setLoading(false)
         }
@@ -56,39 +56,54 @@ const AppSider = () => {
         <Layout.Sider width="25%" style={siderStyle}>
             {assets.map((asset) => (
                 <Card key={asset.id} style={{ marginBottom: '1rem' }}>
-                <Statistic
-                    title={asset.id}
-                    value={asset.totalAmount}
-                    precision={2}
-                    valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322'}}
+                    <Statistic
+                        title={capitalize(asset.id)}
+                        value={asset.totalAmount}
+                        precision={2}
+                        valueStyle={{ color: asset.grow ? '#3f8600' : '#cf1322' }}
                         prefix={asset.grow ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-                    suffix="$"
-                />
-                <List
-                    size='small'
-                    dataSource={data}
-                    renderItem={(item) => (
-                        <List.Item>
-                            <Typography.Text mark>[ITEM]</Typography.Text> {item}
-                        </List.Item>
-                    )}
-                />
-            </Card>
+                        suffix="$"
+                    />
+                    <List
+                        size='small'
+                        dataSource={[
+                            { title: 'Total Profite', value: asset.totalProfit, withTag: true },
+                            { title: 'Asset Amount', value: asset.amount, isPlane: true },
+                            // { title: 'Differense', value: asset.growPersent },
+                        ]}
+                        renderItem={(item) => (
+                            <List.Item>
+                                {/* <Typography.Text mark>[ITEM]</Typography.Text> {item} */}
+                                <span>{item.title}</span>
 
-            // <Card style={{ marginBottom: '1rem' }}>
-            //     <Statistic
-            //         title="Idle"
-            //         value={9.3}
-            //         precision={2}
-            //         valueStyle={{ color: '#cf1322' }}
-            //         prefix={<ArrowDownOutlined />}
-            //         suffix="%"
-            //     />
-            // </Card>
+                                <span>
+                                    {item.withTag && (
+                                        <Tag color={asset.grow ? 'green' : 'red'}>{asset.growPersent}%</Tag>
+                                    )}
+                                    {item.isPlane && <span>{item.value}</span>}
+                                    {!item.isPlane && (
+                                        <Typography.Text type={asset.grow ? 'success' : 'danger'}>{item.value.toFixed(2)}$</Typography.Text>
+                                        )}
+                                        </span>
+                            </List.Item>
+                        )}
+                    />
+                </Card>
+
+                // <Card style={{ marginBottom: '1rem' }}>
+                //     <Statistic
+                //         title="Idle"
+                //         value={9.3}
+                //         precision={2}
+                //         valueStyle={{ color: '#cf1322' }}
+                //         prefix={<ArrowDownOutlined />}
+                //         suffix="%"
+                //     />
+                // </Card>
 
             )
-        )}
-            
+            )}
+
         </Layout.Sider>
     )
 }
