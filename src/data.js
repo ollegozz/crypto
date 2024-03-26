@@ -37,7 +37,7 @@ export const cryptoData = {
       "name": "Ethereum",
       "symbol": "ETH",
       "rank": 2,
-      "price": 3268.3487146602383,
+      "price": 2268.3487146602383,
       "priceBtc": 0.05693808617549567,
       "volume": 34143859424.368114,
       "marketCap": 392695356610.0961,
