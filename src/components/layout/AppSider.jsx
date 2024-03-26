@@ -28,12 +28,11 @@ const AppSider = () => {
     useEffect(() => {
         setLoading(true)
         async function preload() {
-            const { result } = await fakeFetchCrypto()
+            const {result}  = await fakeFetchCrypto()
             const assets = await fetchAssets()
 
             setAssets(
                 assets.map((asset) => {
-                    // ++++++++++!!!!!!!!!!!!!!++++++++++++++!!!!!!!!!!!!
                     const coin = result.find((c) => c.id === asset.id)
                     return {
                         grow: asset.price < coin.price,
@@ -41,13 +40,14 @@ const AppSider = () => {
                         totalAmount: asset.amoutn * coin.price,
                         totalProfit: asset.amoutn * coin.price - asset.amoutn * asset.price,
                         ...asset
-                    }
-                }))
+                    }                    
+                }))     
             setCrypto(result)
             setLoading(false)
         }
         preload()
     }, [])
+
 
     if (loading) {
         return <Spin fullscreen />
