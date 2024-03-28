@@ -10,10 +10,10 @@ const headerStyle = {
     backgroundColor: '#4096ff',
 };
 
-const AppHeaader = () => {
+const AppHeader = () => {
     return (
         <Layout.Header style={headerStyle}>Header</Layout.Header>
     )
 }
 
-export default AppHeaader
+export default AppHeader

@@ -36,9 +36,11 @@ export function CryptoContextProvider({ children }) {
         preload()
     }, [])
 
-    return <CryptoContext.Provider value={{loading, crypto, assets}}>
-        {children}
-    </CryptoContext.Provider>
+    return (
+        <CryptoContext.Provider value={{ loading, crypto, assets }}>
+            {children}
+        </CryptoContext.Provider>
+    )
 }
 
 export default CryptoContext

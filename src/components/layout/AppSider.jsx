@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Layout, Card, Statistic, List, Typography, Spin, Tag } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { fakeFetchCrypto, fetchAssets } from "../../api";
-import { capitalize, percentDifference } from '../../utils'
-import CryptoContext from '../../context/crypto-context';
+import { capitalize,  } from '../../utils'
+import  CryptoContext from '../../context/crypto-context';
 
 
 const siderStyle = {
@@ -36,7 +35,6 @@ export default function AppSider() {
                         dataSource={[
                             { title: 'Total Profite', value: asset.totalProfit, withTag: true },
                             { title: 'Asset Amount', value: asset.amount, isPlane: true },
-                            // { title: 'Differense', value: asset.growPersent },
                         ]}
                         renderItem={(item) => (
                             <List.Item>
@@ -60,5 +58,3 @@ export default function AppSider() {
         </Layout.Sider>
     )
 }
-
-// export default AppSider
