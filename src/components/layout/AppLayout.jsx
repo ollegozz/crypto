@@ -7,17 +7,21 @@ import CryptoContext from '../../context/crypto-context';
 import { Layout, Spin } from 'antd';
 
 export default function AppLayout() {
-    const {loading} = useContext(CryptoContext);
+    const { loading } = useContext(CryptoContext);
 
     if (loading) {
         return <Spin fullscreen />
     }
 
-    <Layout>
-        <AppHeader />
+    return (
         <Layout>
-            <AppSider />
-            <AppContent />
+            <AppHeader />
+            <Layout>
+                <AppSider />
+                <AppContent />
+            </Layout>
         </Layout>
-    </Layout>
+    )
+
+
 }

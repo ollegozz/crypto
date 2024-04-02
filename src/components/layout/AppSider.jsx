@@ -12,11 +12,7 @@ const siderStyle = {
 
 export default function AppSider() {
 
-    const { loading, assets } = useContext(CryptoContext)
-
-    if (loading) {
-        return <Spin fullscreen />
-    }
+    const { assets } = useContext(CryptoContext)
 
     return (
         <Layout.Sider width="25%" style={siderStyle}>
