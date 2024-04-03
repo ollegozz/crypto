@@ -12,40 +12,8 @@ const headerStyle = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-
-    // background: 'white'
 };
 
-// const handleChange = (value) => {
-//     console.log(`selected ${value}`);
-// };
-
-// const options = [
-//     {
-//         label: 'China',
-//         value: 'china',
-//         emoji: '🇨🇳',
-//         desc: 'China (中国)',
-//     },
-//     {
-//         label: 'USA',
-//         value: 'usa',
-//         emoji: '🇺🇸',
-//         desc: 'USA (美国)',
-//     },
-//     {
-//         label: 'Japan',
-//         value: 'japan',
-//         emoji: '🇯🇵',
-//         desc: 'Japan (日本)',
-//     },
-//     {
-//         label: 'Korea',
-//         value: 'korea',
-//         emoji: '🇰🇷',
-//         desc: 'Korea (韩国)',
-//     },
-// ];
 
 const AppHeader = () => {
     const { crypto } = useCrypto()
@@ -62,7 +30,7 @@ const AppHeader = () => {
         }
         document.addEventListener('keypress', keypress)
         return () => document.removeEventListener('keypress', keypress)
-    },[])
+    }, [])
 
     function handleSelect(value) {
         console.log(value);
@@ -79,10 +47,8 @@ const AppHeader = () => {
                 open={select}
                 onSelect={handleSelect}
                 onClick={() => setSelect((prev) => !prev)}
-                value= 'Press / to open'
+                value='Press / to open'
                 defaultValue={['china']}
-                // onChange={handleChange}
-                // optionLabelProp="label"
                 options={crypto.map(coin => ({
                     label: coin.name,
                     value: coin.id,
@@ -91,29 +57,29 @@ const AppHeader = () => {
                 optionRender={(option) => (
                     <Space>
                         {/* ant design оборачивает в option.data*/}
-                        <img style={{width: 20}} src={option.data.icon} alt={option.data.label}/> {option.data.label}
+                        <img style={{ width: 20 }} src={option.data.icon} alt={option.data.label} /> {option.data.label}
                     </Space>
                 )}
             />
-                <Button type="primary"
+            <Button type="primary"
                 onClick={() => setDrawer(true)}
-                >
-                    Add asset
-                    </Button>
+            >
+                Add asset
+            </Button>
 
-            <Modal 
+            <Modal
                 open={modal}
                 onCancel={() => setModal(false)}
                 footer={null}>
                 <CoinInfoModal coin={coin} />
             </Modal>
 
-            <Drawer title="Add asset" onClose={() => setDrawer(fasle)} open={drawer}>
+            <Drawer title="Add asset" onClose={() => setDrawer(false)} open={drawer}>
                 <p>Some contents...</p>
                 <p>Some contents...</p>
                 <p>Some contents...</p>
             </Drawer>
-                
+
         </Layout.Header>
     )
 }

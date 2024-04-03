@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CoinInfoModal = ({coin}) => {
+const CoinInfoModal = ({ coin }) => {
   return (
     <h2>{coin.name}</h2>
   )
