@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Layout, Select, Space, Button } from 'antd';
+import { Layout, Select, Space, Button, Modal } from 'antd';
 import { useCrypto } from '../../context/crypto-context';
 import { useState } from 'react';
 
@@ -48,8 +48,8 @@ const headerStyle = {
 
 const AppHeader = () => {
     const { crypto } = useCrypto()
-
     const [select, setSelect] = useState(false)
+    const [modal, setModal] = useState(false)
 
     useEffect(() => {
         const keypress = e => {
@@ -63,6 +63,7 @@ const AppHeader = () => {
 
     function handleSelect(value) {
         console.log(value);
+        setModal(true)
     }
 
     return (
@@ -74,10 +75,10 @@ const AppHeader = () => {
                 open={select}
                 onSelect={handleSelect}
                 onClick={() => setSelect((prev) => !prev)}
-                value= 'Press # to open'
+                value= 'Press / to open'
                 defaultValue={['china']}
                 // onChange={handleChange}
-                optionLabelProp="label"
+                // optionLabelProp="label"
                 options={crypto.map(coin => ({
                     label: coin.name,
                     value: coin.id,
@@ -91,6 +92,15 @@ const AppHeader = () => {
                 )}
             />
                 <Button type="primary">Add asset</Button>
+
+            <Modal title="Basic Modal" 
+                open={modal}
+                onCancel={() => setModal(false)}
+                footer={null}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
                 
         </Layout.Header>
     )
