@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import { Layout, Select, Space, Button, Modal } from 'antd';
+import { Layout, Select, Space, Button, Modal, Drawer } from 'antd';
 import { useCrypto } from '../../context/crypto-context';
 import { useState } from 'react';
+import CoinInfoModal from './CoinInfoModal';
 
 const headerStyle = {
     width: '100%',
@@ -50,6 +51,8 @@ const AppHeader = () => {
     const { crypto } = useCrypto()
     const [select, setSelect] = useState(false)
     const [modal, setModal] = useState(false)
+    const [coin, setCoin] = useState(null)
+    const [drawer, setDrawer] = useState(false)
 
     useEffect(() => {
         const keypress = e => {
@@ -63,6 +66,7 @@ const AppHeader = () => {
 
     function handleSelect(value) {
         console.log(value);
+        setCoin(crypto.find((c) => c.id === value))
         setModal(true)
     }
 
@@ -91,16 +95,24 @@ const AppHeader = () => {
                     </Space>
                 )}
             />
-                <Button type="primary">Add asset</Button>
+                <Button type="primary"
+                onClick={() => setDrawer(true)}
+                >
+                    Add asset
+                    </Button>
 
-            <Modal title="Basic Modal" 
+            <Modal 
                 open={modal}
                 onCancel={() => setModal(false)}
                 footer={null}>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
-                <p>Some contents...</p>
+                <CoinInfoModal coin={coin} />
             </Modal>
+
+            <Drawer title="Add asset" onClose={() => setDrawer(fasle)} open={drawer}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Drawer>
                 
         </Layout.Header>
     )
