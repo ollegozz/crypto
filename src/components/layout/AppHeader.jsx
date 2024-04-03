@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Layout, Select, Space, Button } from 'antd';
+import { useCrypto } from '../../context/crypto-context';
+import { useState } from 'react';
 
 const headerStyle = {
     width: '100%',
@@ -13,55 +15,78 @@ const headerStyle = {
     // background: 'white'
 };
 
-const handleChange = (value) => {
-    console.log(`selected ${value}`);
-};
-const options = [
-    {
-        label: 'China',
-        value: 'china',
-        emoji: '🇨🇳',
-        desc: 'China (中国)',
-    },
-    {
-        label: 'USA',
-        value: 'usa',
-        emoji: '🇺🇸',
-        desc: 'USA (美国)',
-    },
-    {
-        label: 'Japan',
-        value: 'japan',
-        emoji: '🇯🇵',
-        desc: 'Japan (日本)',
-    },
-    {
-        label: 'Korea',
-        value: 'korea',
-        emoji: '🇰🇷',
-        desc: 'Korea (韩国)',
-    },
-];
+// const handleChange = (value) => {
+//     console.log(`selected ${value}`);
+// };
+
+// const options = [
+//     {
+//         label: 'China',
+//         value: 'china',
+//         emoji: '🇨🇳',
+//         desc: 'China (中国)',
+//     },
+//     {
+//         label: 'USA',
+//         value: 'usa',
+//         emoji: '🇺🇸',
+//         desc: 'USA (美国)',
+//     },
+//     {
+//         label: 'Japan',
+//         value: 'japan',
+//         emoji: '🇯🇵',
+//         desc: 'Japan (日本)',
+//     },
+//     {
+//         label: 'Korea',
+//         value: 'korea',
+//         emoji: '🇰🇷',
+//         desc: 'Korea (韩国)',
+//     },
+// ];
 
 const AppHeader = () => {
+    const { crypto } = useCrypto()
+
+    const [select, setSelect] = useState(false)
+
+    useEffect(() => {
+        const keypress = e => {
+            if (e.key === '/') {
+                setSelect((prev) => !prev)
+            }
+        }
+        document.addEventListener('keypress', keypress)
+        return () => document.removeEventListener('keypress', keypress)
+    },[])
+
+    function handleSelect(value) {
+        console.log(value);
+    }
+
     return (
         <Layout.Header style={headerStyle}>
             <Select
                 style={{
                     width: '250px',
                 }}
+                open={select}
+                onSelect={handleSelect}
+                onClick={() => setSelect((prev) => !prev)}
                 value= 'Press # to open'
                 defaultValue={['china']}
                 // onChange={handleChange}
                 optionLabelProp="label"
-                options={options}
+                options={crypto.map(coin => ({
+                    label: coin.name,
+                    value: coin.id,
+                    icon: coin.icon
+                }))}
                 optionRender={(option) => (
                     <Space>
-                        {/* <span role="img" aria-label={option.data.label}>
-                            {option.data.emoji}
-                        </span>
-                        {option.data.desc} */}
-                        <img/> bitcoin
+                        {/* ant design оборачивает в option.data*/}
+                        <img style={{width: 20}} src={option.data.icon} alt={option.data.label}/> {option.data.label}
                     </Space>
                 )}
             />
