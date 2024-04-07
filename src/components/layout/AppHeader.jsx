@@ -79,7 +79,9 @@ const AppHeader = () => {
                 width={600}
                 title="Add asset"
                 onClose={() => setDrawer(false)}
-                open={drawer}>
+                open={drawer}
+                destroyOnClose
+                >
                 <AddAssetForm />
             </Drawer>
 
