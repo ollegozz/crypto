@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Select, Space, Typography, Flex, Divider, Form, Button, InputNumber, DatePicker, Result } from 'antd';
 import { useCrypto } from '../context/crypto-context';
+import CoinInfo from './layout/CoinInfo';
 
-const AddAssetForm = ( {onClose} ) => {
+const AddAssetForm = ({ onClose }) => {
     const [form] = Form.useForm()
     const { crypto } = useCrypto()
     const [coin, setCoin] = useState(null)
@@ -87,12 +88,7 @@ const AddAssetForm = ( {onClose} ) => {
             onFinish={onFinish}
             validateMessages={validateMessages}
         >
-            <Flex align='center'>
-                <img src={coin.icon} alt={coin.name} style={{ width: 40, marginRight: 10 }} />
-                <Typography.Title lavel={2} style={{ margin: 0 }}>
-                    {coin.name}
-                </Typography.Title>
-            </Flex>
+            <CoinInfo coin={coin} />
             <Divider />
 
 
@@ -102,30 +98,30 @@ const AddAssetForm = ( {onClose} ) => {
                 rules={[
                     {
                         required: true,
-                        type: 'number', 
+                        type: 'number',
                         min: 0
                     },
                 ]}
             >
                 <InputNumber placeholder='Enter coin amount'
-                style={{ width: '100%' }} 
-                onChange={handleAmountChange}
+                    style={{ width: '100%' }}
+                    onChange={handleAmountChange}
                 />
             </Form.Item>
 
             <Form.Item label="Price" name="price" >
                 <InputNumber
                     onChange={handlePriceChange}
-                style={{width: '100%'}}/>
+                    style={{ width: '100%' }} />
             </Form.Item>
-            
-                {/* &amp; спецсимвол & */}
+
+            {/* &amp; спецсимвол & */}
             <Form.Item label="Date &amp; Time" name="date" >
                 <DatePicker showTime style={{ width: '100%' }}></DatePicker>
             </Form.Item>
 
             <Form.Item label="Total" name="total" >
-                <InputNumber disabled style={{width: '100%'}}/>
+                <InputNumber disabled style={{ width: '100%' }} />
             </Form.Item>
 
             <Form.Item>
