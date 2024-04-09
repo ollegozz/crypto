@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Select, Space, Typography, Flex, Divider, Form, Input, Checkbox, Button, InputNumber, DatePicker } from 'antd';
+import { Select, Space, Typography, Flex, Divider, Form, Button, InputNumber, DatePicker, Result } from 'antd';
 import { useCrypto } from '../context/crypto-context';
 
-const AddAssetForm = () => {
+const AddAssetForm = ( {onClose} ) => {
     const [form] = Form.useForm()
     const { crypto } = useCrypto()
     const [coin, setCoin] = useState(null)
+    const [submitted, setSubmitted] = useState(false)
 
     const validateMessages = {
         required: '${label} is required',
@@ -15,6 +16,22 @@ const AddAssetForm = () => {
         number: {
             range: '${label} must to be between ${min} and ${max}'
         }
+    }
+
+    if (submitted) {
+        return (
+            <Result
+                status="success"
+                title="New Asset added!"
+                subTitle={`Added ${42} of ${coin.name} by price ${24}`}
+                extra={[
+                    <Button type="primary" key="console" onClick={onClose}>
+                        Close
+                    </Button>,
+                    // <Button key="buy">Buy Again</Button>,
+                ]}
+            />
+        )
     }
 
     if (!coin) {
@@ -40,12 +57,13 @@ const AddAssetForm = () => {
 
     function onFinish(values) {
         console.log('finish', values);
+        setSubmitted(true)
     }
 
     function handleAmountChange(value) {
         const price = form.getFieldValue('price')
         form.setFieldsValue({
-            total: +(value * price).toFixed(2),
+            total: +(value * price),
         })
     }
 
