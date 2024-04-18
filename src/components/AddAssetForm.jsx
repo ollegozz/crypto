@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Select, Space, Typography, Flex, Divider, Form, Button, InputNumber, DatePicker, Result } from 'antd';
 import { useCrypto } from '../context/crypto-context';
 import CoinInfo from './layout/CoinInfo';
@@ -8,6 +8,7 @@ const AddAssetForm = ({ onClose }) => {
     const { crypto } = useCrypto()
     const [coin, setCoin] = useState(null)
     const [submitted, setSubmitted] = useState(false)
+    const assetRef = useRef()
 
     const validateMessages = {
         required: '${label} is required',
@@ -24,12 +25,11 @@ const AddAssetForm = ({ onClose }) => {
             <Result
                 status="success"
                 title="New Asset added!"
-                subTitle={`Added ${42} of ${coin.name} by price ${24}`}
+                subTitle={`Added ${assetRef.current.amount} of ${coin.name} by price ${assetRef.current.price}`}
                 extra={[
                     <Button type="primary" key="console" onClick={onClose}>
                         Close
-                    </Button>,
-                    // <Button key="buy">Buy Again</Button>,
+                    </Button>
                 ]}
             />
         )
@@ -57,7 +57,14 @@ const AddAssetForm = ({ onClose }) => {
     }
 
     function onFinish(values) {
-        console.log('finish', values);
+        console.log(values);
+        const newAsset = {
+            id: coin.id,
+            amount: values.amount,
+            price: values.price,
+            date: values.date?.$d ?? new Date()
+        }
+        assetRef.current = newAsset
         setSubmitted(true)
     }
 
